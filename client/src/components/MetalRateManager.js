@@ -61,14 +61,16 @@ const MetalRateManager = () => {
         rate,
         rateDate,
       });
+         console.log("purity",purity)
       alert("New rate added!");
       setRate("");
       setRateDate("");
-      setLatestRate(null);
+      setLatestRate(null);  
       await handleMetalPurityChange(metal, purity);
     } catch (err) {
       console.error(err);
     }
+ 
   };
 
   return (
