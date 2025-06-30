@@ -1,17 +1,26 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import PurityPage from "./pages/PurityPage";
 import MetalRateManagerPage from "./pages/MetalRateManagerPage";
 import MetalRateHistoryPage from "./pages/MetalRateHistoryPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import { AppBar, Toolbar, Button, Container } from "@mui/material";
+import { AppBar, Toolbar, Button, Container, Box, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 
 function App() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const token = localStorage.getItem("token");
+  const userEmail = localStorage.getItem("userEmail");
+
+  const userName = userEmail ? userEmail.split("@")[0] : "";
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -32,10 +41,18 @@ function App() {
           <Button color="inherit" component={Link} to="/history">
             Rate History
           </Button>
+          <Box sx={{ flexGrow: 1 }} /> {/* Push content to right */}
           {token ? (
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
+            <>
+              <Typography
+                sx={{ mr: 2, textTransform: "capitalize", fontWeight: "bold" }}
+              >
+                {userName}
+              </Typography>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
           ) : (
             <>
               <Button color="inherit" component={Link} to="/login">

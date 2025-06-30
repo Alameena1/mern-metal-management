@@ -7,15 +7,25 @@ const METALS = ["Gold", "Silver", "Platinum"];
 const CreatePurityForm = ({ onCreate }) => {
   const [name, setName] = useState("");
   const [metal, setMetal] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!name.trim()) newErrors.name = "Purity name is required.";
+    if (!metal) newErrors.metal = "Please select a metal.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !metal) return;
+    if (!validate()) return;
 
     try {
       const res = await API.post("/purities", { name, metal });
       setName("");
       setMetal("");
+      setErrors({});
       onCreate(res.data);
     } catch (err) {
       console.error(err);
@@ -23,23 +33,21 @@ const CreatePurityForm = ({ onCreate }) => {
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{ display: "flex", gap: 2, mb: 2 }}
-    >
+    <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", gap: 2, mb: 2 }}>
       <TextField
         label="Purity Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        required
+        error={!!errors.name}
+        helperText={errors.name}
       />
       <TextField
         label="Metal"
         select
         value={metal}
         onChange={(e) => setMetal(e.target.value)}
-        required
+        error={!!errors.metal}
+        helperText={errors.metal}
         sx={{ minWidth: 120 }}
       >
         {METALS.map((m) => (

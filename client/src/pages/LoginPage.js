@@ -15,18 +15,20 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-      const res = await API.post("/auth/login", { email, password });
-      localStorage.setItem("token", res.data.token);
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      setError("Invalid email or password");
-    }
-  };
+ const handleLogin = async (e) => {
+  e.preventDefault();
+  setError("");
+  try {
+    const res = await API.post("/auth/login", { email, password });
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("userEmail", email);
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+    setError("Invalid email or password");
+  }
+};
+
 
   return (
     <Box sx={{ maxWidth: 400, mx: "auto", mt: 4 }}>

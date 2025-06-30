@@ -25,6 +25,8 @@ const MetalRateManager = () => {
   const [notifMessage, setNotifMessage] = useState("");
   const [notifSeverity, setNotifSeverity] = useState("success");
 
+  const [formErrors, setFormErrors] = useState({});
+
   useEffect(() => {
     const fetchPurities = async () => {
       try {
@@ -54,9 +56,19 @@ const MetalRateManager = () => {
     setLoading(false);
   };
 
+  const validate = () => {
+    const newErrors = {};
+    if (!metal) newErrors.metal = "Please select a metal.";
+    if (!purity) newErrors.purity = "Please select a purity.";
+    if (!rate) newErrors.rate = "Rate is required.";
+    if (!rateDate) newErrors.rateDate = "Date is required.";
+    setFormErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!metal || !purity || !rate || !rateDate) return;
+    if (!validate()) return;
 
     try {
       await API.post("/rates", { metal, purity, rate, rateDate });
@@ -65,6 +77,7 @@ const MetalRateManager = () => {
       setNotifOpen(true);
       setRate("");
       setRateDate("");
+      setFormErrors({});
       await handleMetalPurityChange(metal, purity);
     } catch (err) {
       console.error(err);
@@ -92,7 +105,8 @@ const MetalRateManager = () => {
             setMetal(e.target.value);
             handleMetalPurityChange(e.target.value, purity);
           }}
-          required
+          error={!!formErrors.metal}
+          helperText={formErrors.metal}
           sx={{ minWidth: 150 }}
         >
           {METALS.map((m) => (
@@ -110,7 +124,8 @@ const MetalRateManager = () => {
             setPurity(e.target.value);
             handleMetalPurityChange(metal, e.target.value);
           }}
-          required
+          error={!!formErrors.purity}
+          helperText={formErrors.purity}
           sx={{ minWidth: 150 }}
         >
           {purities
@@ -127,7 +142,8 @@ const MetalRateManager = () => {
           type="number"
           value={rate}
           onChange={(e) => setRate(e.target.value)}
-          required
+          error={!!formErrors.rate}
+          helperText={formErrors.rate}
         />
         <TextField
           label="Rate Date"
@@ -135,7 +151,8 @@ const MetalRateManager = () => {
           InputLabelProps={{ shrink: true }}
           value={rateDate}
           onChange={(e) => setRateDate(e.target.value)}
-          required
+          error={!!formErrors.rateDate}
+          helperText={formErrors.rateDate}
         />
 
         <Button variant="contained" type="submit">
@@ -153,7 +170,8 @@ const MetalRateManager = () => {
         <CircularProgress />
       ) : latestRate ? (
         <Typography variant="body1" color="textSecondary">
-          Latest Rate: {latestRate.rate} (Date: {latestRate.rateDate.slice(0, 10)})
+          Latest Rate: {latestRate.rate} (Date:{" "}
+          {latestRate.rateDate.slice(0, 10)})
         </Typography>
       ) : (
         <Typography variant="body2" color="textSecondary">
