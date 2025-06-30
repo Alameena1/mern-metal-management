@@ -2,20 +2,32 @@ const express = require("express");
 const router = express.Router();
 const MetalRate = require("../models/MetalRate");
 
-// GET all rates (with optional filters)
+// GET all rates (with optional filters and pagination)
 router.get("/", async (req, res) => {
   try {
-    const { metal, purity } = req.query;
+    const { metal, purity, page = 1, limit = 10 } = req.query;
     const query = {};
     if (metal) query.metal = metal;
-    if (purity) query.purity = purity;
+if (purity) query.purity = new RegExp(`^${purity}$`, "i");
 
-    const rates = await MetalRate.find(query).sort({ rateDate: -1 });
-    res.json(rates);
+    const rates = await MetalRate.find(query)
+      .sort({ rateDate: -1 })
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const total = await MetalRate.countDocuments(query);
+
+    res.json({
+      rates,
+      total,
+      page: Number(page),
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // GET latest rate for a metal & purity
 router.get("/latest", async (req, res) => {

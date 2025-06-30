@@ -1,6 +1,7 @@
 import React from "react";
 import PurityList from "./components/PurityList";
 import MetalRateManager from "./components/MetalRateManager";
+import MetalRateList from "./components/MetalRateList";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <h2>Purity Management</h2>
       <PurityList />
       <MetalRateManager />
+      <MetalRateList />
     </div>
   );
 }
