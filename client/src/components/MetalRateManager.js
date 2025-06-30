@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 import {
   Box,
   TextField,
@@ -8,6 +9,7 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
+import Notification from "./Notification";
 
 const METALS = ["Gold", "Silver", "Platinum"];
 
@@ -19,6 +21,10 @@ const MetalRateManager = () => {
   const [rateDate, setRateDate] = useState("");
   const [latestRate, setLatestRate] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [notifMessage, setNotifMessage] = useState("");
+  const [notifSeverity, setNotifSeverity] = useState("success");
 
   useEffect(() => {
     const fetchPurities = async () => {
@@ -61,16 +67,18 @@ const MetalRateManager = () => {
         rate,
         rateDate,
       });
-         console.log("purity",purity)
-      alert("New rate added!");
+      setNotifMessage("New rate added!");
+      setNotifSeverity("success");
+      setNotifOpen(true);
       setRate("");
       setRateDate("");
-      setLatestRate(null);  
       await handleMetalPurityChange(metal, purity);
     } catch (err) {
       console.error(err);
+      setNotifMessage("Error adding rate");
+      setNotifSeverity("error");
+      setNotifOpen(true);
     }
- 
   };
 
   return (
@@ -140,6 +148,12 @@ const MetalRateManager = () => {
         <Button variant="contained" type="submit">
           Save Rate
         </Button>
+        <Notification
+          open={notifOpen}
+          onClose={() => setNotifOpen(false)}
+          severity={notifSeverity}
+          message={notifMessage}
+        />
       </Box>
 
       {loading ? (

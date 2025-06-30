@@ -97,17 +97,17 @@ const MetalRateList = () => {
           onChange={(e) => setPurity(e.target.value)}
           sx={{ minWidth: 150 }}
         >
-          {[...new Set(
-  purities
-    .filter((p) => p.metal.toLowerCase() === metal.toLowerCase())
-    .map((p) => p.name)
-)].map((uniqueName) => (
-  <MenuItem key={uniqueName} value={uniqueName}>
-    {uniqueName}
-  </MenuItem>
-))}
-
-
+          {[
+            ...new Set(
+              purities
+                .filter((p) => p.metal.toLowerCase() === metal.toLowerCase())
+                .map((p) => p.name)
+            ),
+          ].map((uniqueName) => (
+            <MenuItem key={uniqueName} value={uniqueName}>
+              {uniqueName}
+            </MenuItem>
+          ))}
         </TextField>
 
         <Button variant="contained" onClick={handleFilter}>
