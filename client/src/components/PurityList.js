@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api";
 import {
   List,
   ListItem,
@@ -25,7 +25,7 @@ const PurityList = () => {
 
   const fetchPurities = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/purities");
+      const res = await API.get("/purities");
       setPurities(res.data);
     } catch (err) {
       console.error(err);
@@ -44,7 +44,7 @@ const PurityList = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this purity?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/purities/${id}`);
+      await API.delete(`/purities/${id}`);
       setPurities((prev) => prev.filter((p) => p._id !== id));
     } catch (err) {
       console.error(err);
@@ -63,7 +63,7 @@ const PurityList = () => {
 
   const handleSave = async (id) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/purities/${id}`, editData);
+      const res = await API.put(`/purities/${id}`, editData);
       setPurities((prev) =>
         prev.map((p) => (p._id === id ? res.data : p))
       );

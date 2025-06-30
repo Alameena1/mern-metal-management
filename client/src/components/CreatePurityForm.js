@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { TextField, Button, MenuItem, Box } from "@mui/material";
+import API from "../api";
 
 const METALS = ["Gold", "Silver", "Platinum"];
 
@@ -13,10 +13,7 @@ const CreatePurityForm = ({ onCreate }) => {
     if (!name || !metal) return;
 
     try {
-      const res = await axios.post("http://localhost:5000/api/purities", {
-        name,
-        metal,
-      });
+      const res = await API.post("/purities", { name, metal });
       setName("");
       setMetal("");
       onCreate(res.data);
@@ -26,7 +23,11 @@ const CreatePurityForm = ({ onCreate }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", gap: 2, mb: 2 }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ display: "flex", gap: 2, mb: 2 }}
+    >
       <TextField
         label="Purity Name"
         value={name}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api";
 import {
   Box,
   TextField,
@@ -29,7 +29,7 @@ const MetalRateList = () => {
   useEffect(() => {
     const fetchPurities = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/purities");
+        const res = await API.get("/purities");
         setPurities(res.data);
       } catch (err) {
         console.error(err);
@@ -48,9 +48,7 @@ const MetalRateList = () => {
       if (metal) params.metal = metal;
       if (purity) params.purity = purity;
 
-      const res = await axios.get("http://localhost:5000/api/rates", {
-        params,
-      });
+      const res = await API.get("/rates", { params });
 
       setRates(res.data.rates);
       setTotalPages(res.data.totalPages);
@@ -97,13 +95,11 @@ const MetalRateList = () => {
           onChange={(e) => setPurity(e.target.value)}
           sx={{ minWidth: 150 }}
         >
-          {[
-            ...new Set(
-              purities
-                .filter((p) => p.metal.toLowerCase() === metal.toLowerCase())
-                .map((p) => p.name)
-            ),
-          ].map((uniqueName) => (
+          {[...new Set(
+            purities
+              .filter((p) => p.metal.toLowerCase() === metal.toLowerCase())
+              .map((p) => p.name)
+          )].map((uniqueName) => (
             <MenuItem key={uniqueName} value={uniqueName}>
               {uniqueName}
             </MenuItem>

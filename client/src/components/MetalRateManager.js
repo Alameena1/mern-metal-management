@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
+import API from "../api";
 import {
   Box,
   TextField,
@@ -29,13 +28,12 @@ const MetalRateManager = () => {
   useEffect(() => {
     const fetchPurities = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/purities");
+        const res = await API.get("/purities");
         setPurities(res.data);
       } catch (err) {
         console.error(err);
       }
     };
-
     fetchPurities();
   }, []);
 
@@ -46,9 +44,9 @@ const MetalRateManager = () => {
     }
     setLoading(true);
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/rates/latest?metal=${selectedMetal}&purity=${selectedPurity}`
-      );
+      const res = await API.get(`/rates/latest`, {
+        params: { metal: selectedMetal, purity: selectedPurity },
+      });
       setLatestRate(res.data);
     } catch (err) {
       console.error(err);
@@ -61,12 +59,7 @@ const MetalRateManager = () => {
     if (!metal || !purity || !rate || !rateDate) return;
 
     try {
-      await axios.post("http://localhost:5000/api/rates", {
-        metal,
-        purity,
-        rate,
-        rateDate,
-      });
+      await API.post("/rates", { metal, purity, rate, rateDate });
       setNotifMessage("New rate added!");
       setNotifSeverity("success");
       setNotifOpen(true);
@@ -160,8 +153,7 @@ const MetalRateManager = () => {
         <CircularProgress />
       ) : latestRate ? (
         <Typography variant="body1" color="textSecondary">
-          Latest Rate: {latestRate.rate} (Date:{" "}
-          {latestRate.rateDate.slice(0, 10)})
+          Latest Rate: {latestRate.rate} (Date: {latestRate.rateDate.slice(0, 10)})
         </Typography>
       ) : (
         <Typography variant="body2" color="textSecondary">
