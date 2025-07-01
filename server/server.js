@@ -28,6 +28,8 @@ app.use("/api/purities", purityRoutes);
 app.use("/api/rates", metalRateRoutes);
 app.use("/api/auth", authRoutes);
 
+console.log("MONGO_URI:", process.env.MONGO_URI);
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
