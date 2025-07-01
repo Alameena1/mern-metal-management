@@ -147,7 +147,7 @@ npm install
 Create environment variables file:
 ```bash
 # Create .env file in server directory
-touch .env
+ .env
 ```
 
 Add the following environment variables to `.env`:
@@ -157,11 +157,9 @@ MONGO_URI=your_mongodb_connection_string
 
 # JWT Configuration
 JWT_SECRET=your_super_secret_jwt_key
-JWT_EXPIRE=7d
 
 # Server Configuration
 PORT=5000
-NODE_ENV=development
 ```
 
 Start the backend server:
@@ -184,13 +182,12 @@ npm install
 Create environment variables file:
 ```bash
 # Create .env file in client directory
-touch .env
+ .env
 ```
 
 Add the following environment variables to `.env`:
 ```env
 REACT_APP_API_URL=http://localhost:5000/api
-REACT_APP_APP_NAME=Metal Rate Management
 ```
 
 Start the frontend development server:
