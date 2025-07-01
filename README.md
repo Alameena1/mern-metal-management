@@ -233,19 +233,29 @@ Authorization: Bearer <your-jwt-token>
 ## 🎯 Usage Guide
 
 ### For First-Time Users
-1. **Register**: Create a new account using the RegisterPage component
+1. **Register**: Visit the Register page to set up a new account with your email and password.
 2. **Login**: Sign in with your credentials via the LoginPage
-3. **Navigate**: Use the MainSidebar to access different management sections
-4. **Manage Metal Data**: Add and organize your metal information
+3. **Navigate**: Utilize the top navigation bar to switch between Purity, Rate Management, and Rate History sections
+4. **Manage Metal Data**: Add and organize metal details via the Metal Rate Management section.
 5. **Set Purities**: Configure purity levels using the PurtyManager
-6. **Track Rates**: Monitor and update metal rates with MetalRateManager
+6. **Track Rates**: Monitor and update metal rates in the Rate Management and Rate History sections.
 
-### Key Components Usage
-- **MainSidebar**: Central navigation for all application features
-- **MetalDataManager**: Comprehensive metal information management
-- **PurtyManager**: Purity level configuration and management
-- **MetalRateManager**: Real-time rate tracking and updates
+### Key Features 
+- **Main Navigation Bar**: Access Purity, Rate Management, and Rate History with a single click.
+- **MetalRateManager**: Input metal rates by selecting metal, purity, and date, then save the new rate.
+- **PurtyManager**: Add new purity levels by selecting a metal and entering a purity name.
+- **Rate History**:  Search historical rates by metal and purity to review past data.
 - **Form Components**: Intuitive forms for data entry and updates
+
+### Authentication 
+- **Login**: Enter your email and password to sign in.
+- **Register**: Sign up with a new email and password to start using the app.
+- **Note**: You must be logged in to perform actions like saving rates or creating purities.
+
+### Authentication 
+- Ensure all fields are filled before saving or creating to avoid errors.
+- Use the search functionality in Rate History to quickly find specific rates.
+- Log out and log back in if you encounter access issues.
 
 ---
 
