@@ -20,6 +20,7 @@ const RegisterPage = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
+
     try {
       await API.post("/auth/register", { email, password });
       setSuccess("Registration successful! You can now log in.");
@@ -46,17 +47,14 @@ const RegisterPage = () => {
       >
         <TextField
           label="Email"
-          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
         <TextField
           label="Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
         <Button variant="contained" type="submit">
           Register
