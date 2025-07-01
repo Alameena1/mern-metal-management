@@ -41,7 +41,7 @@ function App() {
           <Button color="inherit" component={Link} to="/history">
             Rate History
           </Button>
-          <Box sx={{ flexGrow: 1 }} /> {/* Push content to right */}
+          <Box sx={{ flexGrow: 1 }} /> { }
           {token ? (
             <>
               <Typography
